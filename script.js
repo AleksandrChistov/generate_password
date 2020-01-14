@@ -1,17 +1,19 @@
 const btn = document.querySelector('.btn');
 
 btn.addEventListener('click', () => {
-  const number = prompt('Введите число', '10');
+  const nLength = prompt('Введите число', '10');
 
-  if (number) {
-    alert(generateStringFromSymbols(number));
+  if (nLength) {
+    let generatedString = generateStringFromSymbols(nLength);
+    alert(generatedString);
+    ShowQuestionReplaceLetters(generatedString);
   }
 })
 
-function generateStringFromSymbols(number) {
+function generateStringFromSymbols(nLength) {
   let str = '';
 
-  for (let i = 0; i < number; i++) {
+  for (let i = 0; i < nLength; i++) {
     let rand = generateRandomSymbols();
     str += String.fromCharCode(rand);
   }
@@ -27,4 +29,25 @@ function generateRandomSymbols() {
   } else {
     return rand;
   }
+}
+
+function ShowQuestionReplaceLetters(generatedString) {
+  let symbolForLetters = prompt('Каким символом заменить все буквы?', '#');
+
+  if (!symbolForLetters) {
+    return false;
+  }
+
+  if (symbolForLetters.length > 1) {
+    alert('Вы ввели больше одного символа! Попробуйте снова.');
+    ShowQuestionReplaceLetters(generatedString);
+    return false;
+  }
+
+  replaceLettersWithSymbol(symbolForLetters, generatedString);
+}
+
+function replaceLettersWithSymbol(nSymbol, generatedString) {
+  generatedString = generatedString.replace( /[A-Z]/g, nSymbol);
+  console.log(generatedString);
 }
