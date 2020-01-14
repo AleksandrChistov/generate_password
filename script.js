@@ -1,20 +1,32 @@
 const btn = document.querySelector('.btn');
 
 btn.addEventListener('click', () => {
-  const nLength = prompt('Введите число', '10');
+  const nLength = +prompt('Введите число', '10');
   let generatedString = '';
+  let nSymbolFirst;
+  let nSymbolSecond;
 
   if (nLength) {
     generatedString += generateStringFromSymbols(nLength);
-    alert(generatedString);
-    generatedString = ShowQuestionReplaceSymbols(generatedString, 'Каким символом заменить все буквы?', /[A-Z]/g);
-    console.log(generatedString);
+    alert('Сгенерированая строка: ' + '\n' + generatedString);
+    let generatedObj = ShowQuestionReplaceSymbols(generatedString, 'Каким символом заменить все буквы?', /[A-Z]/g);
+    generatedString = generatedObj.generatedString;
+    nSymbolFirst = generatedObj.nSymbol;
   }
 
   if (generatedString) {
-    console.log("Заменили буквы:" + generatedString);
-    generatedString = ShowQuestionReplaceSymbols(generatedString, 'Каким символом заменить все цифры?', /[0-9]/g);
-    console.log(generatedString);
+    let generatedObj = ShowQuestionReplaceSymbols(generatedString, 'Каким символом заменить все цифры?', /[0-9]/g);
+    generatedString = generatedObj.generatedString;
+    nSymbolSecond = generatedObj.nSymbol;
+  }
+
+  if (generatedString) {
+    let amountReFirst = generatedString.match(new RegExp(`\\${nSymbolFirst}`, 'g'));
+    let amountReSecond = generatedString.match(new RegExp(`\\${nSymbolSecond}`, 'g'));
+
+    alert('Получившаяся строка: ' + generatedString + '\n' +  
+          'Количество повторов первого символа: ' + amountReFirst.length + '\n' + 
+          'Количество повторов второго символа: ' + amountReSecond.length);
   }
 })
 
@@ -55,5 +67,8 @@ function ShowQuestionReplaceSymbols(generatedString, question, whatToReplace) {
 }
 
 function replaceWithSymbol(nSymbol, generatedString, whatToReplace) {
-  return generatedString.replace( whatToReplace, nSymbol);
+  return {
+    generatedString: generatedString.replace( whatToReplace, nSymbol),
+    nSymbol
+  };
 }
