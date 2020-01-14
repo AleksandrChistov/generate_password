@@ -2,14 +2,21 @@ const btn = document.querySelector('.btn');
 
 btn.addEventListener('click', () => {
   const number = prompt('Введите число', '10');
-  generateStringFromSymbols(number);
+
+  if (number) {
+    alert(generateStringFromSymbols(number));
+  }
 })
 
 function generateStringFromSymbols(number) {
+  let str = '';
+
   for (let i = 0; i < number; i++) {
     let rand = generateRandomSymbols();
-    console.log(String.fromCharCode(rand));
+    str += String.fromCharCode(rand);
   }
+
+  return str;
 }
 
 function generateRandomSymbols() {
