@@ -2,11 +2,19 @@ const btn = document.querySelector('.btn');
 
 btn.addEventListener('click', () => {
   const nLength = prompt('Введите число', '10');
+  let generatedString = '';
 
   if (nLength) {
-    let generatedString = generateStringFromSymbols(nLength);
+    generatedString += generateStringFromSymbols(nLength);
     alert(generatedString);
-    ShowQuestionReplaceLetters(generatedString);
+    generatedString = ShowQuestionReplaceSymbols(generatedString, 'Каким символом заменить все буквы?', /[A-Z]/g);
+    console.log(generatedString);
+  }
+
+  if (generatedString) {
+    console.log("Заменили буквы:" + generatedString);
+    generatedString = ShowQuestionReplaceSymbols(generatedString, 'Каким символом заменить все цифры?', /[0-9]/g);
+    console.log(generatedString);
   }
 })
 
@@ -31,8 +39,8 @@ function generateRandomSymbols() {
   }
 }
 
-function ShowQuestionReplaceLetters(generatedString) {
-  let symbolForLetters = prompt('Каким символом заменить все буквы?', '#');
+function ShowQuestionReplaceSymbols(generatedString, question, whatToReplace) {
+  let symbolForLetters = prompt(question, '#');
 
   if (!symbolForLetters) {
     return false;
@@ -40,14 +48,12 @@ function ShowQuestionReplaceLetters(generatedString) {
 
   if (symbolForLetters.length > 1) {
     alert('Вы ввели больше одного символа! Попробуйте снова.');
-    ShowQuestionReplaceLetters(generatedString);
-    return false;
+    return ShowQuestionReplaceSymbols(generatedString, question, whatToReplace);
   }
 
-  replaceLettersWithSymbol(symbolForLetters, generatedString);
+  return replaceWithSymbol(symbolForLetters, generatedString, whatToReplace);
 }
 
-function replaceLettersWithSymbol(nSymbol, generatedString) {
-  generatedString = generatedString.replace( /[A-Z]/g, nSymbol);
-  console.log(generatedString);
+function replaceWithSymbol(nSymbol, generatedString, whatToReplace) {
+  return generatedString.replace( whatToReplace, nSymbol);
 }
