@@ -6,7 +6,7 @@ btn.addEventListener('click', () => {
   let nSymbolFirst;
   let nSymbolSecond;
 
-  if (nLength) {
+  if (nLength > 0) {
     generatedString += generateStringFromSymbols(nLength);
     alert('Сгенерированая строка: ' + '\n' + generatedString);
     let generatedObj = ShowQuestionReplaceSymbols(generatedString, 'Каким символом заменить все буквы?', /[A-Z]/g);
